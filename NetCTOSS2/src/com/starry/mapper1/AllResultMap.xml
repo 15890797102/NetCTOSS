@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.starry.mapper1.AllResultMap">
+
+   <resultMap id="AccountResultMap" type="com.starry.pojo.Account" >
+    <id column="ACCOUNT_ID" property="account_id" jdbcType="DECIMAL" />
+    <result column="RECOMMENDER_ID" property="recommender_id" jdbcType="DECIMAL" />
+    <result column="LOGIN_NAME" property="login_name" jdbcType="VARCHAR" />
+    <result column="LOGIN_PASSWD" property="login_passwd" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="create_date" jdbcType="TIMESTAMP" />
+    <result column="PAUSE_DATE" property="pause_date" jdbcType="TIMESTAMP" />
+    <result column="CLOSE_DATE" property="close_date" jdbcType="TIMESTAMP" />
+    <result column="REAL_NAME" property="real_name" jdbcType="VARCHAR" />
+    <result column="IDCARD_NO" property="idcard_no" jdbcType="CHAR" />
+    <result column="BIRTHDATE" property="birthdate" jdbcType="TIMESTAMP" />
+    <result column="GENDER" property="gender" jdbcType="CHAR" />
+    <result column="OCCUPATION" property="occupation" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="MAILADDRESS" property="mailaddress" jdbcType="VARCHAR" />
+    <result column="ZIPCODE" property="zipcode" jdbcType="CHAR" />
+    <result column="QQ" property="qq" jdbcType="VARCHAR" />
+    <result column="LAST_LOGIN_TIME" property="last_login_time" jdbcType="TIMESTAMP" />
+    <result column="LAST_LOGIN_IP" property="last_login_ip" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="AdminInfoResultMap" type="com.starry.pojo.Admin_info" >
+    <id column="ADMIN_ID" property="admin_id" jdbcType="DECIMAL" />
+    <result column="ADMIN_CODE" property="admin_code" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="ENROLLDATE" property="enrolldate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="AdminRoleResultMap" type="com.starry.pojo.Admin_role" >
+    <id column="ADMIN_ID" property="admin_id" jdbcType="DECIMAL" />
+    <id column="ROLE_ID" property="role_id" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="CostResultMap" type="com.starry.pojo.Cost" >
+    <id column="COST_ID" property="cost_id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BASE_DURATION" property="base_duration" jdbcType="DECIMAL" />
+    <result column="BASE_COST" property="base_cost" jdbcType="DECIMAL" />
+    <result column="UNIT_COST" property="unit_cost" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="DESCR" property="descr" jdbcType="VARCHAR" />
+    <result column="CREATIME" property="creatime" jdbcType="TIMESTAMP" />
+    <result column="STARTIME" property="startime" jdbcType="TIMESTAMP" />
+    <result column="COST_TYPE" property="cost_type" jdbcType="CHAR" />
+  </resultMap>
+  
+  <resultMap id="ModuleInfoResultMap" type="com.starry.pojo.Module_info" >
+    <id column="MODULE_ID" property="module_id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="RoleInfoResultMap" type="com.starry.pojo.Role_info" >
+    <id column="ROLE_ID" property="role_id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="RoleModuleResultMap" type="com.starry.pojo.Role_modole" >
+    <id column="ROLE_ID" property="role_id" jdbcType="DECIMAL" />
+    <id column="MODULE_ID" property="module_id" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="ServiceResultMap" type="com.starry.pojo.Service" >
+    <id column="SERVICE_ID" property="service_id" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_ID" property="account_id" jdbcType="DECIMAL" />
+    <result column="UNIX_HOST" property="unix_host" jdbcType="VARCHAR" />
+    <result column="OS_USERNAME" property="os_username" jdbcType="VARCHAR" />
+    <result column="LOGIN_PASSWD" property="login_passwd" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="create_date" jdbcType="TIMESTAMP" />
+    <result column="PAUSE_DATE" property="pause_date" jdbcType="TIMESTAMP" />
+    <result column="CLOSE_DATE" property="close_date" jdbcType="TIMESTAMP" />
+    <result column="COST_ID" property="cost_id" jdbcType="DECIMAL" />
+  </resultMap>
+</mapper>

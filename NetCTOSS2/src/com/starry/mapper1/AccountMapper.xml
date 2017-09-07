@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="com.starry.mapper1.AccountMapper">
+	<!-- 1.整体查询  把account表中的数据查询出来 -->
+	<select id="findAllPage" resultType="Account">
+			select count(*) from account
+	</select>
+	<!-- 2.根据身份证，姓名，登录名  把account表中的数据查询出来，然后返回总数据条数-->	
+	<sql id="selectWhere">
+		<where>
+				<if test="value1!=null and value1!=''">
+					idcard_no like '%${value1}%'
+				</if>
+				<if test="value2!=null and value2!=''">
+					and real_name like '%${value2}%'
+				</if>
+				<if test="value3!=null and value3!=''">
+					and login_name like '%${value3}%'
+				</if>
+		</where>	
+	</sql>
+		
+	<select id="findAllById" resultType="Integer" parameterType="Page">
+			select count(*)  from account	
+			<include refid="selectWhere"></include>		
+	</select>
+	
+	
+	<select id="findAllByRownum"  resultType="Account" parameterType="Page">
+		select * from(
+		select a.*,rownum r
+		from(
+		select * from account
+		 <include refid="selectWhere"></include>	
+		) a)b
+		where b.r &gt;= #{startPage} and b.r &lt;= #{pageCount}		
+	</select>
+	
+	<!-- 更新操作 -->
+	<select id="findByIdOne" parameterType="Integer">
+		select * from Account 
+		where account_id=#{account_id}
+	</select>
+	<!-- 3.根据传进来的id 进行更新信息操作 -->
+	<update id="updateById" parameterType="Account">
+		update account 
+		<set>
+			<if test="real_name!=null and real_name!=''">
+				real_name=#{real_name},
+			</if>
+			<if test="telephone!=null and telephone!=''">
+				telephone=#{telephone},
+			</if>
+			<if test="email!=null and email!=''">
+				email=#{email},
+			</if>
+			<if test="status!=null and status!=''">
+				status=#{status},
+			</if>
+		</set>
+		where account_id=#{account_id}
+	</update>
+	
+	<!-- 4.新增    根据页面填写账务账号信息保存数据 -->
+	<insert id="addAccount" parameterType="Account">
+        insert into Account values(account_seq.nextval,
+        #{recommender_id,jdbcType=DECIMAL},
+        #{login_name,jdbcType=VARCHAR},
+        #{login_passwd,jdbcType=VARCHAR},
+        #{status,jdbcType=CHAR},
+        sysdate,
+        #{pause_date,jdbcType=VARCHAR},
+        #{close_date,jdbcType=VARCHAR},
+        #{real_name,jdbcType=VARCHAR},
+        #{idcard_no,jdbcType=CHAR},
+        #{birthdate,jdbcType=CHAR},
+        #{gender,jdbcType=CHAR},
+        #{occupation,jdbcType=VARCHAR},
+        #{telephone,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{mailaddress,jdbcType=VARCHAR},
+        #{zipcode,jdbcType=CHAR},
+        #{qq,jdbcType=VARCHAR},
+        #{last_login_time,jdbcType=VARCHAR},
+        #{last_login_ip,jdbcType=VARCHAR})		
+	</insert>
+	<!-- 4.根据传进来的id 进行删除信息操作 -->
+	<update id="deleteAccount" parameterType="Integer">
+		update account set STATUS = '2'
+		where account_id=#{account_id}
+	</update>
+</mapper>

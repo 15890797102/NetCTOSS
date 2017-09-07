@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="com.starry.mapper1.ServiceMapper">
+	
+	<!-- 共享查询条件 -->
+	<sql id="selectWhere">
+		<where>
+			<if test="value1!=null and value1!=''">
+				t.os_username=#{value1}
+			</if>
+			<if test="value2!=null and value2!=''">
+				and t.unix_host=#{value2}
+			</if>
+			<if test="value3!=null and value3!=''">
+				and a.idcard_no=#{value3}
+			</if>
+			<if test="value4!=null and value4!=''">
+				and a.status=#{value4}
+			</if>
+		</where>
+	</sql>
+
+
+	<!-- 1根据os账号，服务器IP，身份证号，状态条件进行按照业务Id生序分页查询列表数据 -->
+	
+	<resultMap  type="service" id="ServiceAll" 
+		extends="com.starry.mapper1.AllResultMap.ServiceResultMap">
+		<association property="account" column="account_id" javaType="Account" resultMap="AccRM"></association>
+	</resultMap>
+	
+<resultMap type="Account" id="AccRM" 
+		extends="com.starry.mapper1.AllResultMap.AccountResultMap">
+	</resultMap>
+	
+	<select id="findAll1">
+		select a.login_name, t.*,c.*
+		from SERVICE t join account a
+		on t.account_id=a.account_id
+		join cost c
+		on t.cost_id=c.cost_id
+	</select>
+	
+	<select id="findAllById" resultType="Integer" parameterType="Page">
+		select count(*)  
+		from SERVICE t join account a
+		on t.account_id=a.account_id
+		join cost c
+		on t.cost_id=c.cost_id		
+		<include refid="selectWhere"></include>		
+	</select>
+		
+	<select id="findAll" resultMap="ServiceAll" parameterType="page">		
+		select *
+		from(select a.*,rownum r
+		from(select *
+		from service t join account a
+		on t.account_id=a.account_id
+		join cost c
+		on t.cost_id=c.cost_id		
+		<include refid="selectWhere"></include>
+		)a)b	
+		where b.r &gt;= #{startPage} and b.r &lt;= #{pageCount}	
+	</select>
+	
+	<!-- ======================================== -->
+	<!-- 根据ID，更新数据库信息 更新资费包月信息 -->
+	<select id="selectByCostId"  parameterType="String" resultType="Integer">
+		select cost_id
+		from cost
+		where name=#{name}
+	</select>
+	
+	<update id="updateCostById"  parameterType="service">
+		update service set cost_id=#{cost_id}
+		where service_id=#{service_id}
+	</update>
+	
+	<!-- ================================================================ -->
+	<!-- !!!!! service表 添加数据 -->
+	<!-- 根据身份证号查询account_id -->
+	<select id="selectAccountOut" resultType="Integer" parameterType="String">
+		select account_id from account
+		where IDCARD_NO=#{idcard_no}
+	</select>
+	<!-- 根据account_id 查询service表中数据 -->
+	<select id="selectCostOut" resultType="Integer" parameterType="String">
+		select cost_id from Cost
+		where name=#{name}
+	</select>
+	<!-- !!!!添加数据 -->
+	<insert id="insertService" parameterType="Service">
+		insert into service(service_id,account_id,unix_host,status,os_username,login_passwd,cost_id) values(service_seq.nextval,#{account_id},#{unix_host},#{status},#{os_username},#{login_passwd},#{cost_id})
+	</insert>
+	
+	
+	<!-- ========================================================== -->
+	<!-- =========删除业务账号====== -->
+	
+	<update id="deleteService" parameterType="Integer">
+		update service
+		set status='2'
+		where service_id=#{service_id}
+	</update>
+	
+	
+</mapper>
